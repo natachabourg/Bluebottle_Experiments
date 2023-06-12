@@ -22,17 +22,5 @@ end
 
 
 imshow(rgb2gray(I));hold on;
-scatter(grid_x,grid_y,'red','filled')
-
-
-i=18
-
-for j = 1:14
-    [X,Y]= ginput(1)
-    
-    grid_x(j,i) = X;
-    grid_y(j,i) = Y;
-
-end
-
+scatter(grid_x(1:10,:),grid_y(1:10,:),'red','filled')
 
