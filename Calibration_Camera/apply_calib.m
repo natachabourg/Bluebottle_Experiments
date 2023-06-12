@@ -1,57 +1,16 @@
 clear all; close all;
 
-%%
-
-size_x = 21;
-size_y = 14;
-
-grid_x = NaN*ones(size_x,size_y);
-grid_y = NaN*ones(size_x,size_y);
-%%
-path= '/home/nbourg/Bluebottle_Experiments/Calibration_Camera/';
-file =[path 'calib_anne_screen.png']
-
-I = imread(file);
-imshow(rgb2ycbcr(I))
-for i = 7:size_y
-    for j = 1:size_x
-        [X,Y]= ginput(1)
-        
-        grid_x(j,i) = X;
-        grid_y(j,i) = Y;
-
-    end
-end
-%%
+path= '/media/nbourg/One Touch/Bluebottle/poster/26_05_23/';
+path_left = [path 'wind_4ms/run1/Left_UltraGauche/'];
+path_right = [path 'wind_4ms/run1/Right_UltraDroite/'];
 
 
-save('calib2nd.mat','grid_x','grid_y')
+fn = dir(fullfile(path_left,'*.jpg'));
+files = cell(1, length(fn));
+ for i = 1:3:length(fn)
+    files{i} = fullfile(path_left,fn(i).name);
 
-%%
-load("calib2nd.mat")
-
-dist_x = NaN*ones(21,14);
-dist_y = NaN*ones(21,14);
-
-
-for i=1:21
-    dist_x(i,:) = 0:20:(14-1)*20;
-end
-
-
-for i=1:14
-    dist_y(:,i) = 0:20:(21-1)*20;
-end
-
-
-
-%% test 
-
-clear bb_points_y_left
-clear bb_points_x_left
-
- for i = 1:5
-    
+    I = imread(files{i});
     imshow(I)
 
 
@@ -66,7 +25,27 @@ clear bb_points_x_left
  end
 
 
+%%
 
+load('calib2nd.mat')
+
+path= '/home/nbourg/Bluebottle_Experiments/Calibration_Camera/';
+file =[path 'calib_anne_screen.png']
+
+grid = imread(file);
+imshow(rgb2ycbcr(grid))
+
+hold on;
+imshow((I));
+hold on;
+
+scatter(grid_x,grid_y)
+
+
+scatter(bb_points_x_left, bb_points_y_left,'r','filled')
+
+
+%%
 
 delta_t = 2*60;
 
@@ -105,6 +84,4 @@ scatter(bb_points_x_left, bb_points_y_left,'r','filled')
 plot(xs,ys,'r')
 
 title([num2str(angle_deg) '°, ' num2str(speed*100) 'cm/s'])
-
-
 
