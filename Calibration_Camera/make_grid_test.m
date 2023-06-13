@@ -44,3 +44,4 @@ figure
 plot(iy,ix','.')
 size(A2)
 
+%%%https://stackoverflow.com/questions/32447767/how-to-warp-an-image-into-a-trapezoidal-shape-in-matlab
